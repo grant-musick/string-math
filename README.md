@@ -1,5 +1,5 @@
 # string-subtraction
-Based on an interview problem I had recently with which I had difficulties.
+Based on interview problem I came across recently.
 
 Basic problem is as follows:
 
