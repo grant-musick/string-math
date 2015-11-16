@@ -1,4 +1,5 @@
 # string-subtraction
+## Python
 Based on interview problem I came across recently.
 
 Basic problem is as follows:
@@ -26,3 +27,12 @@ To run the tests type: 'python -m unittest string_subtraction'
 
 
 There is also a way to do this with twos complement but that is not this code...yet.
+
+
+## C# in Xamarin
+
+Took another swing at this in Xamarin...because. Not functionally equivalent to python
+version. The C# version has addition and limited subtraction but got me back into
+the swing of writing some basic C# code.
+
+Playtime continues...
