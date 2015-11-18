@@ -1,4 +1,4 @@
-# string-subtraction
+# string-math
 ## Python
 Based on interview problem I came across recently.
 
