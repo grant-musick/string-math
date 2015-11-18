@@ -24,6 +24,9 @@ class StringNumber:
         else:
             return self.value
 
+    def __add__(self, other):
+        return StringNumber.__add(self, other, False) # TODO: sign flip not right
+
     def __sub__(self, other):
         comp = StringNumber.__compare(self, other)
         if comp == 1:
@@ -58,6 +61,45 @@ class StringNumber:
                     return -1
             else:
                 return 0 # they are equal
+
+
+    @staticmethod
+    def __add(first, second, sign_flip=False):
+        rev_first = first.value.zfill(len(second))[::-1]
+        rev_second = second.value.zfill(len(first))[::-1]
+
+        answer_coll = []
+        add_one_to_next = False;
+
+        for x in range(len(rev_first)):
+            f = int(rev_first[x])
+            s = int(rev_second[x])
+            if add_one_to_next:
+                f = f + 1
+            
+            tot = f + s
+            if tot > 10:
+                add_one_to_next = True
+                tot = tot - 10
+            else:
+                add_one_to_next = False
+
+            answer_coll.append(tot)
+
+        if add_one_to_next:
+            answer_coll.append("1")
+
+        answer_arr = [str(x) for x in answer_coll]
+        answer_str = "".join(answer_arr)
+        answer_str = answer_str[::-1].lstrip('0')
+        if not answer_str: answer_str = '0'
+
+        return StringNumber(str(answer_str))
+
+
+
+
+
 
 
 
@@ -187,7 +229,25 @@ class StringNumberTests(unittest.TestCase):
         self.assertEqual("0", str(number))
 
 
+    def test_basic_addition(self):
+        number = StringNumber("1") + StringNumber("2")
+        self.assertEqual("3", str(number))
 
+    def test_carryover(self):
+        number = StringNumber("7") + StringNumber("8")
+        self.assertEqual("15", str(number))
+
+    def test_diff_length_numbers(self):
+        number = StringNumber("4") + StringNumber("20")
+        self.assertEqual("24", str(number))
+
+    def test_zero_plus_one_addition(self):
+        number = StringNumber("0") + StringNumber("1")
+        self.assertEqual("1", str(number))
+
+    def test_zero_addition(self):
+        number = StringNumber("0") + StringNumber("0")
+        self.assertEqual("0", str(number))
 
 
 
