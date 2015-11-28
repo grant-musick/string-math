@@ -25,7 +25,7 @@ class StringNumber:
             return self.value
 
     def __add__(self, other):
-        return StringNumber.__add(self, other, False) # TODO: sign flip not right
+        return StringNumber.__add(self, other)
 
     def __sub__(self, other):
         comp = StringNumber.__compare(self, other)
@@ -36,11 +36,22 @@ class StringNumber:
         else:
             return StringNumber("0")
 
-    def __gt__(self, other):
-        pass
+    def __cmp__(self, other):
+        if len(self) > len(other):
+            return 1
+        elif len(self) < len(other):
+            return -1
+        else:
+            for x in zip(self.value, other.value):
+                f = int(x[0])
+                s = int(x[1])
+                if f > s:
+                    return 1
+                elif f < s:
+                    return -1
+            else:
+                return 0 # they are equal
 
-    def __lt__(self, other):
-        pass
 
     def __len__(self):
         return len(self.value)
@@ -64,7 +75,7 @@ class StringNumber:
 
 
     @staticmethod
-    def __add(first, second, sign_flip=False):
+    def __add(first, second):
         rev_first = first.value.zfill(len(second))[::-1]
         rev_second = second.value.zfill(len(first))[::-1]
 
@@ -135,119 +146,6 @@ class StringNumber:
             answer_str = "-" + answer_str
         return StringNumber(answer_str)
 
-
-
-
-
-
-class StringNumberTests(unittest.TestCase):
-
-    def test_pos_short_number_construction(self):
-        number = StringNumber("1")
-        self.assertEqual("1", str(number))
-
-    def test_neg_short_number_construction(self):
-        number = StringNumber("-1")
-        self.assertEqual("-1", str(number))
-
-    def test_pos_number_construction(self):
-        number = StringNumber("123")
-        self.assertEqual("123", str(number))
-
-    def test_neg_number_construction(self):
-        number = StringNumber("-123")
-        self.assertEqual("-123", str(number))
-
-    def test_zero_number_construction(self):
-        number = StringNumber("0")
-        self.assertEqual("0", str(number))
-
-    def test_neg_zero_number_construction(self):
-        number = StringNumber("-0")
-        self.assertEqual("-0", str(number))
-
-    def test_bad_string_construction(self):
-        with self.assertRaises(ValueError):
-            StringNumber("12b")
-
-    def test_empty_string_construction(self):
-        with self.assertRaises(ValueError):
-            StringNumber("12b")
-
-    def test_none_construction(self):
-        with self.assertRaises(ValueError):
-            StringNumber(None)
-
-    def test_pos_pos_pos_subtraction(self):
-        number = StringNumber("40") - StringNumber("20")
-        self.assertEqual("20", str(number))
-
-    def test_pos_pos_zero_subtraction(self):
-        number = StringNumber("40") - StringNumber("40")
-        self.assertEqual("0", str(number))
-
-    @unittest.skip("Out of scope for naive problem")
-    def test_pos_neg_pos_subtraction(self):
-        number = StringNumber("40") - StringNumber("-20")
-        self.assertEqual("60", str(number))
-
-    def test_pos_pos_neg_subraction(self):
-        number = StringNumber("40") - StringNumber("100")
-        self.assertEqual("-60", str(number))
-
-    def test_pos_zero_pos_subtraction(self):
-        number = StringNumber("40") - StringNumber("0")
-        self.assertEqual("40", str(number))
-
-    @unittest.skip("Out of scope for naive problem")
-    def test_neg_pos_neg_subtraction(self):
-        number = StringNumber("-40") - StringNumber("20")
-        self.assertEqual("-60", str(number))
-
-    @unittest.skip("Out of scope for naive problem")
-    def test_neg_neg_neg_subtraction(self):
-        number = StringNumber("-40") - StringNumber("-20")
-        self.assertEqual("-20", str(number))
-
-    @unittest.skip("Out of scope for naive problem")
-    def test_neg_neg_zero_subtraction(self):
-        number = StringNumber("-40") - StringNumber("-40")
-        self.assertEqual("0", str(number))
-
-    @unittest.skip("Out of scope for naive problem")
-    def test_neg_neg_pos_subtraction(self):
-        number = StringNumber("-40") - StringNumber("-60")
-        self.assertEqual("20", str(number))
-
-    @unittest.skip("Out of scope for naive problem")
-    def test_neg_zero_neg_subtraction(self):
-        number = StringNumber("-40") - StringNumber("0")
-        self.assertEqual("-40", str(number))
-
-    def test_zero_zero_zero_subtraction(self):
-        number = StringNumber("0") - StringNumber("0")
-        self.assertEqual("0", str(number))
-
-
-    def test_basic_addition(self):
-        number = StringNumber("1") + StringNumber("2")
-        self.assertEqual("3", str(number))
-
-    def test_carryover(self):
-        number = StringNumber("7") + StringNumber("8")
-        self.assertEqual("15", str(number))
-
-    def test_diff_length_numbers(self):
-        number = StringNumber("4") + StringNumber("20")
-        self.assertEqual("24", str(number))
-
-    def test_zero_plus_one_addition(self):
-        number = StringNumber("0") + StringNumber("1")
-        self.assertEqual("1", str(number))
-
-    def test_zero_addition(self):
-        number = StringNumber("0") + StringNumber("0")
-        self.assertEqual("0", str(number))
 
 
 
