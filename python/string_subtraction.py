@@ -36,25 +36,31 @@ class StringNumber:
         else:
             return StringNumber("0")
 
+
     def __cmp__(self, other):
-        if len(self) > len(other):
-            return 1
-        elif len(self) < len(other):
-            return -1
+        """Basic cases:
+        Both positive then just compare strings
+        Both negative then just compare strings and reverse answer
+        Both zero then they are equal
+        Different signs then figure out which one is negative and it is smallest"""
+
+        if not self.value.lstrip('0') and not other.value.lstrip('0'):
+            return 0
+        elif self.negative and other.negative:
+            return -(StringNumber.__compare(self.value, other.value))
+        elif not self.negative and not other.negative:
+            return StringNumber.__compare(self.value,other.value)
         else:
-            for x in zip(self.value, other.value):
-                f = int(x[0])
-                s = int(x[1])
-                if f > s:
-                    return 1
-                elif f < s:
-                    return -1
+            if self.negative:
+                return -1
             else:
-                return 0 # they are equal
+                return 1
 
 
     def __len__(self):
         return len(self.value)
+
+
 
     @staticmethod
     def __compare(first, second):
