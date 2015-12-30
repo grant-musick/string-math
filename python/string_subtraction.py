@@ -28,14 +28,17 @@ class StringNumber:
         return StringNumber.__add(self, other)
 
     def __sub__(self, other):
-        comp = StringNumber.__compare(self, other)
+        # This feels like a hack but it makes a test pass
+        if not self.negative and other.negative:
+            return self.__add__(StringNumber(other.value))
+
+        comp = self.__cmp__(other)
         if comp == 1:
             return StringNumber.__subtract(self, other, False)
         elif comp == -1:
-            return StringNumber.__subtract(other, self, True)
+            return StringNumber.__subtract(self, other, True)
         else:
             return StringNumber("0")
-
 
     def __cmp__(self, other):
         """Basic cases:
@@ -56,20 +59,18 @@ class StringNumber:
             else:
                 return 1
 
-
     def __len__(self):
         return len(self.value)
 
-
-
     @staticmethod
     def __compare(first, second):
+        """Values are both strings"""
         if len(first) > len(second):
             return 1
         elif len(first) < len(second):
             return -1
         else:
-            for x in zip(first.value, second.value):
+            for x in zip(first, second):
                 f = int(x[0])
                 s = int(x[1])
                 if f > s:
@@ -78,7 +79,6 @@ class StringNumber:
                     return -1
             else:
                 return 0 # they are equal
-
 
     @staticmethod
     def __add(first, second):
@@ -113,13 +113,6 @@ class StringNumber:
 
         return StringNumber(str(answer_str))
 
-
-
-
-
-
-
-
     @staticmethod
     def __subtract(minuend, subtrahend, sign_flip=False):
         """ Assuming we already know the minuend is a numeric value
@@ -151,9 +144,6 @@ class StringNumber:
         if sign_flip:
             answer_str = "-" + answer_str
         return StringNumber(answer_str)
-
-
-
 
 if __name__ == "__main__":
     a = StringNumber("1")

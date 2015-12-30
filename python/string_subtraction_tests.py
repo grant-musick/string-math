@@ -152,7 +152,6 @@ class StringNumberTests(unittest.TestCase):
         number = StringNumber("40") - StringNumber("40")
         self.assertEqual("0", str(number))
 
-    @unittest.skip("Out of scope for naive problem")
     def test_pos_neg_pos_subtraction(self):
         number = StringNumber("40") - StringNumber("-20")
         self.assertEqual("60", str(number))
@@ -165,27 +164,24 @@ class StringNumberTests(unittest.TestCase):
         number = StringNumber("40") - StringNumber("0")
         self.assertEqual("40", str(number))
 
-    @unittest.skip("Out of scope for naive problem")
     def test_neg_pos_neg_subtraction(self):
         number = StringNumber("-40") - StringNumber("20")
         self.assertEqual("-60", str(number))
 
-    @unittest.skip("Out of scope for naive problem")
     def test_neg_neg_neg_subtraction(self):
+#        import pdb
+#        pdb.set_trace()
         number = StringNumber("-40") - StringNumber("-20")
         self.assertEqual("-20", str(number))
 
-    @unittest.skip("Out of scope for naive problem")
     def test_neg_neg_zero_subtraction(self):
         number = StringNumber("-40") - StringNumber("-40")
         self.assertEqual("0", str(number))
 
-    @unittest.skip("Out of scope for naive problem")
     def test_neg_neg_pos_subtraction(self):
         number = StringNumber("-40") - StringNumber("-60")
         self.assertEqual("20", str(number))
 
-    @unittest.skip("Out of scope for naive problem")
     def test_neg_zero_neg_subtraction(self):
         number = StringNumber("-40") - StringNumber("0")
         self.assertEqual("-40", str(number))
@@ -193,7 +189,6 @@ class StringNumberTests(unittest.TestCase):
     def test_zero_zero_zero_subtraction(self):
         number = StringNumber("0") - StringNumber("0")
         self.assertEqual("0", str(number))
-
 
     def test_basic_addition(self):
         number = StringNumber("1") + StringNumber("2")
